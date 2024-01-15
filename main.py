@@ -1,40 +1,25 @@
 import pandas as pd
-from pybit.unified_trading import HTTP
 import matplotlib.pyplot as plt
-from pprint import pprint
 import time
 
-def make_cci(high, low, close):
-    m = (high + low + close) / 3
-    n = m.rolling(20).mean()
-    d = m.rolling(20).apply(lambda x : pd.Series(x).mad())
-    cci = (m - n) / (0.015 * d)
+from log import Log
+from request import get_mark_price
+from event import chk_event_1, chk_event_2
 
-    return cci
+print("### start server ###")
 
-def make_ema(close, n):
-    return close.ewm(span=n, adjust=False).mean()
+while True:
+    response = get_mark_price('GODSUSDT')
 
-# 5분마다 연산
+    if response is None: continue
 
-session = HTTP(testnet=True)
-response = session.get_mark_price_kline(
-    category="linear",
-    symbol="BTCUSDT",
-    interval="D",
-    limit = 200
-)['result']['list']
+    else:
+        if chk_event_1(response): Log("ET1", "알림발생").lprint()
+        if chk_event_2(response): Log("ET2", "알림발생").lprint()
 
-response = response[::-1]
+        df = response
+        df.plot(x="time", y=["C", "50EMA", "100EMA"])
+        df.plot(x="time", y=["CCI"])
+        plt.show()
 
-# 전처리 EMA, CCI
-
-df = pd.DataFrame(response, columns=["time", "O", "H", "L", "C"])
-df = df.astype(float)
-df['CCI'] = make_cci(df["H"], df["L"], df["C"])
-df['50EMA'] = make_ema(df["C"], 50)
-df['100EMA'] = make_ema(df["C"], 100)
-df.plot(x="time", y=["50EMA", "100EMA"])
-plt.show()
-
-print(df)
+    time.sleep(60)
