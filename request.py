@@ -22,9 +22,9 @@ def get_mark_price(symbol):
         limit = 200
     )
     response_code = response["retCode"]
-    if response_code == 0: Log("200", "OK").lprint()
+    if response_code == 0: Log("200", "OK", symbol).lprint()
     else:
-        Log("400", "Fail to Get DATA").lprint()
+        Log("400", "Fail to Get DATA", symbol).lprint()
         return None
     response = response['result']['list']
     response = response[::-1]

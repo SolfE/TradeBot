@@ -14,8 +14,10 @@ while True:
     if response is None: continue
 
     else:
-        if chk_event_1(response): Log("ET1", "알림발생").lprint()
-        if chk_event_2(response): Log("ET2", "알림발생").lprint()
+        if chk_event_1(response):
+            Log("ET1", "알림발생", "GODSUSDT").lprint()
+        if chk_event_2(response):
+            Log("ET2", "알림발생", "GODSUSDT").lprint()
 
         df = response
         df.plot(x="time", y=["C", "50EMA", "100EMA"])
