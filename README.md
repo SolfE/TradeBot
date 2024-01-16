@@ -16,6 +16,7 @@ SYMBOL_LIST = [
     'BTCUSDT',
     'ETHUSDT',
 ]
+GET_ALL_SYMBOL = True
 SERVER_INTERVAL = 60 # sec
 CANDLE_INTERVAL = 1 # min
 ```

@@ -1,14 +1,22 @@
 import matplotlib.pyplot as plt
+from pybit.unified_trading import HTTP
 import time
+from pprint import pprint
 
 from log import Log
 from request import get_mark_price
 from event import chk_event_1
 from discordAPI import send_msg
-from config import SYMBOL_LIST, SERVER_INTERVAL
+from config import SYMBOL_LIST, SERVER_INTERVAL, GET_ALL_SYMBOL
 
 print("######### start server #########")
-print(f"SYMBOLS : {SYMBOL_LIST}")
+
+if GET_ALL_SYMBOL:
+    session = HTTP(testnet=True)
+    SYMBOL_LIST = list(map(lambda x : x['symbol'], session.get_tickers(category="spot")['result']['list']))
+
+pprint(f"SYMBOLS : {SYMBOL_LIST}")
+print(f"SYMBOLS_COUNT : {len(SYMBOL_LIST)}")
 
 while True:
     for symbol in SYMBOL_LIST:

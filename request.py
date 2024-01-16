@@ -17,13 +17,13 @@ def make_ema(close, n):
 
 def get_mark_price(symbol):
     session = HTTP(testnet=True)
-    response = session.get_mark_price_kline(
-        symbol = symbol,
-        interval = CANDLE_INTERVAL,
-        limit = 200
-    )
-    response_code = response["retCode"]
-    if response_code != 0:
+    try:
+        response = session.get_mark_price_kline(
+            symbol = symbol,
+            interval = CANDLE_INTERVAL,
+            limit = 200
+        )
+    except:
         Log("400", "Fail to Get DATA", symbol).lprint()
         return None
 
