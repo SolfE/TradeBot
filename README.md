@@ -20,6 +20,6 @@ SERVER_INTERVAL = 60 # sec
 CANDLE_INTERVAL = 1 # min
 ```
 3. 패키지를 설치한다.
-    > $ pip install requirements.txt
+    > $ pip install -r requirements.txt
 4. main.py를 실행한다.
     > $ python main.py
