@@ -8,17 +8,28 @@
 1. python 3.9버전을 설치한다.
 2. config.py를 원하는 설정값에 맞춰 수정한다.
 ```python
-# config.py
 # 환경변수 자유롭게 수정하여 사용
 
-WEBHOOK = "PUT_IN_YOUR_DISCORD_WEB_HOOK"
+WEBHOOK = "PUT_IN_YOUR_DISCORD_WEBHOOK"
 SYMBOL_LIST = [
-    'BTCUSDT',
-    'ETHUSDT',
+    'AUCTIONUSDT',
+    'MAVUSDT',
+    'CHZUSDT',
+    'KLAYUSDT',
+    'PENDLEUSDT',
 ]
-GET_ALL_SYMBOL = True
+GET_ALL_SYMBOL = False
+
 SERVER_INTERVAL = 60 # sec
 CANDLE_INTERVAL = 1 # min
+
+LEVERAGE = "5" # 배수
+
+TEST_NET = True
+
+# 매우 주의 BYBIT API
+API_KEY = "API_KEY"
+API_SECRET = "API_SECRET"
 ```
 3. 패키지를 설치한다.
     > $ pip install -r requirements.txt
