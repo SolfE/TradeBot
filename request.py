@@ -2,6 +2,7 @@ from pybit.unified_trading import HTTP
 import pandas as pd
 
 from log import Log
+from config import CANDLE_INTERVAL
 
 def make_cci(high, low, close):
     m = (high + low + close) / 3
@@ -18,14 +19,14 @@ def get_mark_price(symbol):
     session = HTTP(testnet=True)
     response = session.get_mark_price_kline(
         symbol = symbol,
-        interval = 1,
+        interval = CANDLE_INTERVAL,
         limit = 200
     )
     response_code = response["retCode"]
-    if response_code == 0: Log("200", "OK", symbol).lprint()
-    else:
+    if response_code != 0:
         Log("400", "Fail to Get DATA", symbol).lprint()
         return None
+
     response = response['result']['list']
     response = response[::-1]
 
@@ -39,5 +40,7 @@ def get_mark_price(symbol):
     df['100EMA'] = make_ema(df["C"], 100)
 
     df = df.loc[::-1].reset_index(drop=True)
+
+    Log("200", "OK", symbol).lprint()
 
     return df

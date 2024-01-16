@@ -8,3 +8,5 @@ class Log():
 
     def lprint(self):
         print(f"[{self.time}][{self.symbol}] {self.code} : {self.msg}")
+    def get(self):
+        return f"[{self.time}][{self.symbol}] {self.code} : {self.msg}"
