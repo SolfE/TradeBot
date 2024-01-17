@@ -29,12 +29,10 @@ while True:
                 log = Log("골크", "롱", symbol)
                 log.lprint()
                 send_msg(log.get())
-                buy_market_price(symbol, 10)
             if chk_event_2(response):
                 log = Log("데드", "숏", symbol)
                 log.lprint()
                 send_msg(log.get())
-                sell_market_price(symbol, 10)
 
             # df = response
             # df.plot(x="time", y=["C", "50EMA", "100EMA"])
