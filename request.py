@@ -3,6 +3,7 @@ import pandas as pd
 
 from log import Log
 from config import CANDLE_INTERVAL, TEST_NET
+from pay import get_market_price
 
 def make_cci(high, low, close):
     m = (high + low + close) / 3
@@ -14,6 +15,14 @@ def make_cci(high, low, close):
 
 def make_ema(close, n):
     return close.ewm(span=n, adjust=False).mean()
+
+def cal_stoploss(symbol, df):
+    sl1 = (df["L"][1] + df["L"][2] + df["L"][3]) / 3
+    sl2 = min(df["L"][1], df["L"][2], df["L"][3], df["L"][4])
+    return sl2 if sl1 > sl2 else sl1
+
+def cal_takeprofit(symbol, df):
+    return (get_market_price(symbol) - cal_stoploss(symbol, df)) * 1.5 + get_market_price(symbol)
 
 def get_mark_history(symbol):
     session = HTTP(testnet=TEST_NET)

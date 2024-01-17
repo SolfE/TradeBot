@@ -3,7 +3,7 @@ from pybit.unified_trading import HTTP
 import time
 
 from log import Log
-from request import get_mark_history
+from request import get_mark_history, cal_stoploss, cal_takeprofit
 from event import chk_event_1, chk_event_2
 from discordAPI import send_msg
 from pay import buy_market_price, sell_market_price
@@ -25,14 +25,12 @@ while True:
         if response is None: continue
 
         else:
+            data = response
             if chk_event_1(response):
                 log = Log("골크", "롱", symbol)
                 log.lprint()
                 send_msg(log.get())
-            if chk_event_2(response):
-                log = Log("데드", "숏", symbol)
-                log.lprint()
-                send_msg(log.get())
+                buy_market_price(symbol, 1000, cal_takeprofit(symbol, data), cal_stoploss(symbol, data))
 
             # df = response
             # df.plot(x="time", y=["C", "50EMA", "100EMA"])
