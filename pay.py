@@ -16,7 +16,7 @@ def get_market_price(symbol):
     except:
         return None
 
-def buy_market_price(symbol, price):
+def buy_market_price(symbol, price, take_profit, stop_loss):
     market_price = get_market_price(symbol)
 
     if market_price is None:
@@ -48,8 +48,8 @@ def buy_market_price(symbol, price):
             side="Buy",
             orderType="Market",
             qty=qty,
-            takeProfit = market_price * (1 + 0.015),
-            stopLoss = market_price * (1 - 0.01),
+            takeProfit = take_profit,
+            stopLoss = stop_loss,
             timeInForce="PostOnly",
             isLeverage=1,
             orderFilter="Order",
@@ -61,7 +61,7 @@ def buy_market_price(symbol, price):
         log = Log("400", "BUY FAIL", symbol)
         log.lprint()
 
-def sell_market_price(symbol, price):
+def sell_market_price(symbol, price, take_profit, stop_loss):
     market_price = get_market_price(symbol)
 
     if market_price is None:
@@ -93,8 +93,8 @@ def sell_market_price(symbol, price):
             side="Sell",
             orderType="Market",
             qty=qty,
-            takeProfit = market_price * (1 - 0.015),
-            stopLoss = market_price * (1 + 0.01),
+            takeProfit = take_profit,
+            stopLoss = stop_loss,
             # price="42930",
             timeInForce="PostOnly",
             # orderLinkId="spot-test-postonly",
